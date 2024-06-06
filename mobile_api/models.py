@@ -40,6 +40,7 @@ class ClientUser(models.Model):
 class Shop(models.Model):
     name = models.CharField(max_length=60)
     address = models.TextField()
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True, related_name="shop_user")
     
     class Meta:
         verbose_name = "Shop"

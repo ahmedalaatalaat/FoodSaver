@@ -54,8 +54,8 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    shop_name = serializers.CharField(source='shop.name')
-    shop_address = serializers.CharField(source='shop.address')
+    shop_name = serializers.CharField(source='shop.name', required=False)
+    shop_address = serializers.CharField(source='shop.address', required=False)
     expire_time_humified = serializers.SerializerMethodField()
     
     def get_expire_time_humified(self, obj):
@@ -97,9 +97,8 @@ class CartItemSerializer(serializers.ModelSerializer):
     product_expire_time = serializers.DateTimeField(source='product.expire_time')
     product_image = serializers.SerializerMethodField(source='product.id')
     product_shop_name = serializers.CharField(source='product.shop.name')
-    product_shop_address = serializers.CharField(source='product.shop.name')
+    product_shop_address = serializers.CharField(source='product.shop.address')
     product_expire_time_humified = serializers.SerializerMethodField()
-    
     
     def get_product_expire_time_humified(self, obj):
         return naturaltime(obj.product.expire_time)
@@ -110,3 +109,47 @@ class CartItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = CartItem
         fields = ['product_id', 'product_name', 'product_price', 'product_description', 'product_expire_time', 'product_image', 'product_shop_name', 'product_shop_address', 'product_expire_time_humified', 'quantity', 'order_data']
+
+
+class CartSerializer(serializers.ModelSerializer):
+    items = serializers.SerializerMethodField()
+    
+    def get_items(self, obj):
+        items = obj.cart_items.all()
+        all_items = []
+        for item in items:
+            item_dict = {}
+            item_dict['product_id'] = item.product.id
+            item_dict['product_name'] = item.product.name
+            item_dict['product_price'] = item.product.price
+            item_dict['product_description'] = item.product.description
+            item_dict['product_expire_time'] = item.product.expire_time
+            item_dict['product_image'] = item.product.image.url
+            item_dict['product_shop_name'] = item.product.shop.name
+            item_dict['product_shop_address'] = item.product.shop.address
+            item_dict['product_expire_time_humified'] = naturaltime(item.product.expire_time)
+            item_dict['quantity'] = item.quantity
+            item_dict['order_data'] = item.order_data
+            all_items.append(item_dict)
+        return all_items
+    
+    class Meta:
+        model = Cart
+        fields = ['cart_ID', 'start_cart', 'order_data', 'status', 'items']
+
+
+class ShopCartSerializer(serializers.ModelSerializer):
+    cart_items = serializers.SerializerMethodField()
+    
+    def get_cart_items(self, obj):
+        shop_id = self.context['shop_id']
+        items = obj.cart_items.all()
+        for item in items:
+            if item.product.shop_id != shop_id:
+                items = items.exclude(id=item.id)
+        return CartItemSerializer(items, many=True).data
+
+    class Meta:
+        model = Cart
+        fields = ['id', 'cart_ID', 'start_cart', 'order_data', 'client', 'status', 'cart_items']
+

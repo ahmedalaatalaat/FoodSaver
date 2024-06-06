@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     # Third Party Applications
     'rest_framework',
     'rest_framework.authtoken',
+    'django_extensions',
     # Django Applications
     "django.contrib.admin",
     "django.contrib.auth",
