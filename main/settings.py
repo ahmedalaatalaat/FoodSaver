@@ -35,7 +35,6 @@ INSTALLED_APPS = [
     # Third Party Applications
     'rest_framework',
     'rest_framework.authtoken',
-    'django_extensions',
     # Django Applications
     "django.contrib.admin",
     "django.contrib.auth",
@@ -63,7 +62,9 @@ ROOT_URLCONF = "main.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+            str(BASE_DIR / "mobile_api/templates"),
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -138,7 +139,7 @@ STATIC_ROOT = str(PARENT_DIR / "static_root")
 MEDIA_ROOT = str(PARENT_DIR / "media_root")
 
 STATICFILES_DIRS = [
-    
+    str(BASE_DIR / "mobile_api/static"),
 ]
 
 # Default primary key field type

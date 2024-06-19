@@ -16,6 +16,7 @@ from .models import *
 from . import utils
 
 
+
 class LoginView(APIView):
     
     def get(self, request):
@@ -58,7 +59,6 @@ class RegisterView(APIView):
     def post(self, request):
         user = get_object_or_none(User, username=request.data.get('username').lower() if request.data.get('username') else request.data.get('username'))
         client = get_object_or_none(ClientUser, user=user)
-        print(user, client)
         if user or client:
             # Error 702: user already exists
             return Response({'code':'702', 'error':'user already exists'}, status=status.HTTP_401_UNAUTHORIZED)

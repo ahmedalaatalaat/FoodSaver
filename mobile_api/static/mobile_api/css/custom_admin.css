@@ -1,0 +1,56 @@
+/* custom_admin.css */
+
+/* Change background color of the entire admin interface */
+
+
+/* Change the color of the admin header */
+#header {
+    background-color: #DB5E5E;
+    color: #ffffff !important;
+}
+
+
+.theme-toggle svg.theme-icon-when-auto, .theme-toggle svg.theme-icon-when-dark, .theme-toggle svg.theme-icon-when-light {
+    color: #DB5E5E !important;
+}
+
+.breadcrumbs {
+    background-color: #af4b4b !important;
+}
+
+
+.module h2, .module caption, .inline-group h2{
+    background-color: #af4b4b !important;
+}
+
+/* Change the color of the admin sidebar */
+#sidebar {
+    background-color: #336699;
+}
+
+/* Change the color of the admin content area */
+/* #content {
+    background-color: #ffffff;
+    color: #333333;
+} */
+
+/* Change the color of the admin footer */
+#footer {
+
+    color: #ffffff;
+}
+
+/* Custom styles for the admin login page */
+.login-container {
+    background-color: #f0f0f0;
+    color: #333333;
+}
+
+#nav-sidebar .current-model {
+    background: rgba(153, 65, 65, 0.3) !important;
+}
+
+
+/* .model-tokenproxy{
+    background-color: #4f4f4f !important;
+} */

@@ -59,7 +59,7 @@ class ProductSerializer(serializers.ModelSerializer):
     expire_time_humified = serializers.SerializerMethodField()
     
     def get_expire_time_humified(self, obj):
-        return naturaltime(obj.expire_time)
+        return naturaltime(obj.expire_time).replace("from now", "")
     
     class Meta:
         model = Product
@@ -79,7 +79,7 @@ class ClientWishListSerializer(serializers.ModelSerializer):
     
     
     def get_product_expire_time_humified(self, obj):
-        return naturaltime(obj.product.expire_time)
+        return naturaltime(obj.product.expire_time).replace("from now", "")
     
     def get_product_image(self, obj):
         return obj.product.image.url
@@ -101,7 +101,7 @@ class CartItemSerializer(serializers.ModelSerializer):
     product_expire_time_humified = serializers.SerializerMethodField()
     
     def get_product_expire_time_humified(self, obj):
-        return naturaltime(obj.product.expire_time)
+        return naturaltime(obj.product.expire_time).replace("from now", "")
     
     def get_product_image(self, obj):
         return obj.product.image.url
@@ -127,7 +127,7 @@ class CartSerializer(serializers.ModelSerializer):
             item_dict['product_image'] = item.product.image.url
             item_dict['product_shop_name'] = item.product.shop.name
             item_dict['product_shop_address'] = item.product.shop.address
-            item_dict['product_expire_time_humified'] = naturaltime(item.product.expire_time)
+            item_dict['product_expire_time_humified'] = naturaltime(item.product.expire_time).replace("from now", "")
             item_dict['quantity'] = item.quantity
             item_dict['order_data'] = item.order_data
             all_items.append(item_dict)
